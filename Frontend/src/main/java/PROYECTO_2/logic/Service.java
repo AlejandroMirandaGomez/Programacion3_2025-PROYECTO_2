@@ -54,8 +54,12 @@ public class Service {
         return null; // Implementar
     }
 
-    public Medico read(String e) throws Exception {
-        return null; // Implementar
+    public void update(Medico e) throws Exception{
+        // Implementar
+    }
+
+    public void removeMedico(Medico e) throws Exception{
+        // Implementar
     }
 
     public List<Medico> findAll(){
@@ -66,17 +70,17 @@ public class Service {
         return new ArrayList<Medico>(); // Implementar
     }
 
-    public void removeMedico(Medico e) throws Exception{
-        // Implementar
-    }
-
-    public void update(Medico e) throws Exception{
-        // Implementar
-    }
-
     // ================= Farmaceuta =================
 
     public void create(Farmaceuta e) throws Exception {
+        // Implementar
+    }
+
+    public void update(Farmaceuta e) throws Exception {
+        // Implementar
+    }
+
+    public void removeFarmaceuta(Farmaceuta e) throws Exception {
         // Implementar
     }
 
@@ -88,17 +92,17 @@ public class Service {
         return new ArrayList<Farmaceuta>(); // Implementar
     }
 
-    public void update(Farmaceuta e) throws Exception {
-        // Implementar
-    }
-
-    public void removeFarmaceuta(Farmaceuta e) throws Exception {
-        // Implementar
-    }
-
     // ================= Pacientes =================
 
     public void create(Paciente e) throws Exception {
+        // Implementar
+    }
+
+    public void update(Paciente e) throws Exception {
+        // Implementar
+    }
+
+    public void removePaciente(Paciente e) throws Exception {
         // Implementar
     }
 
@@ -106,16 +110,8 @@ public class Service {
         return new ArrayList<Paciente>(); // Implementar
     }
 
-    public void update(Paciente e) throws Exception {
-        // Implementar
-    }
-
     public List<Paciente> filtrarPacientes(String tipo, String texto) {
         return new ArrayList<Paciente>(); // Implementar
-    }
-
-    public void removePaciente(Paciente e) throws Exception {
-        // Implementar
     }
 
     // ================= Medicamento =================
@@ -128,6 +124,10 @@ public class Service {
         // Implementar
     }
 
+    public void removeMedicamento(Medicamento e) throws Exception {
+        // Implementar
+    }
+
     public List<Medicamento> getListaMedicamentos() {
         return new ArrayList<Medicamento>(); // Implementar
     }
@@ -136,11 +136,15 @@ public class Service {
         return new ArrayList<Medicamento>(); // Implementar
     }
 
-    public void removeMedicamento(Medicamento e) throws Exception {
+    // ================= Recetas =================
+
+    public void create(Receta e) throws Exception {
         // Implementar
     }
 
-    // ================= Recetas =================
+    public void update(Receta e) throws Exception {
+        // Implementar
+    }
 
     public List<Receta> getListaRecetas() {
         return new ArrayList<Receta>(); // Implementar
@@ -154,19 +158,6 @@ public class Service {
         return new ArrayList<Receta>(); // Implementar
     }
 
-    public void create(Receta e) throws Exception {
-        // Implementar
-    }
-
-    public void update(Receta e) throws Exception {
-        // Implementar
-    }
-
-    public Medico getUsuario() throws Exception{
-        return null; // Implementar
-    }
-
-
     // ================= Prescripciones =================
 
     public void create(Prescripcion e) throws Exception {
@@ -175,7 +166,7 @@ public class Service {
 
     // ================= Usuario =================
 
-    public Usuario read(Usuario e) throws Exception {
+    public Medico getUsuario() throws Exception{
         return null; // Implementar
     }
 
@@ -183,11 +174,15 @@ public class Service {
         // Implementar
     }
 
-    public List<Usuario> getListaUsuarios() {
-        return new ArrayList<Usuario>(); // Implementar
+    public Usuario read(Usuario e) throws Exception {
+        return null; // Implementar
     }
 
     public void update(Usuario e) throws Exception {
         // Implementar
+    }
+
+    public List<Usuario> getListaUsuarios() {
+        return new ArrayList<Usuario>(); // Implementar
     }
 }
