@@ -1,6 +1,6 @@
 # Sistema de Prescripción y Despacho de Recetas
 
-**Proyecto #1 – EIF206 Programación 3 (2025-II)**  
+**Proyecto #2 – EIF206 Programación 3 (2025-II)**  
 **Universidad Nacional – Escuela de Informática**
 
 ---
@@ -83,4 +83,4 @@ El sistema distingue tres tipos de usuarios: **administradores, médicos y farma
 ## Repositorio en GitHub
 
 Puedes copiar o ver el repositorio en el siguiente enlace:  
-[Programacion3_2025-PROYECTO_1](https://github.com/AlejandroMirandaGomez/Programacion3_2025-PROYECTO_1.git)
+[Programacion3_2025-PROYECTO_1](https://github.com/AlejandroMirandaGomez/Programacion3_2025-PROYECTO_2.git)
