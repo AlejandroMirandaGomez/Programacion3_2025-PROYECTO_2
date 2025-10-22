@@ -1,8 +1,9 @@
 package pos.logic;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class MedicamentoResumen {
+public class MedicamentoResumen implements Serializable {
     private Medicamento medicamento;       // o puedes guardar el objeto Medicamento
     private LocalDate fechaDesde;
     private LocalDate fechaHasta;

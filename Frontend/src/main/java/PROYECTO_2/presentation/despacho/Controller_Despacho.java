@@ -59,6 +59,10 @@ public class Controller_Despacho {
 
     public void setEstado_of_CurrentReceta(String newEstado) {
         model.setEstado_of_CurrentReceta(newEstado);
+    }
 
+    public void saveState() throws Exception {
+        Receta r = model.getCurrentReceta();
+        Service.getInstance().update(r);
     }
 }

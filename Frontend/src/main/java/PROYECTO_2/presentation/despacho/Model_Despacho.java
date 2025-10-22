@@ -73,5 +73,4 @@ public class Model_Despacho extends AbstractModel {
         this.currentReceta.setEstado(newEstado);
         firePropertyChange(RECETAS);
     }
-
 }

@@ -178,6 +178,10 @@ public class Application {
                         SwingUtilities.invokeLater(() -> {
                             controller_dashboard.getAllRecetas();
                         });
+                    } else if(tabbedPane.getSelectedComponent() == view_despacho.getPanel()) {
+                        SwingUtilities.invokeLater(() -> {
+                            controller_despacho.getRecetas();
+                        });
                     }
                 });
 
@@ -191,6 +195,10 @@ public class Application {
                         SwingUtilities.invokeLater(() -> {
                             controller_Prescribir.getPacientes();
                         });
+                    } else if(tabbedPane.getSelectedComponent() == view_despacho.getPanel()) {
+                        SwingUtilities.invokeLater(() -> {
+                            controller_despacho.getRecetas();
+                        });
                     }
                 });
                 tabbedPane.addTab("Dashboard", new ImageIcon(Application.class.getResource("/Icons/grafico.png")),view_dashboard.getPanel());
@@ -200,6 +208,10 @@ public class Application {
                         SwingUtilities.invokeLater(() -> {
                             controller_dashboard.getAllRecetas();
                         });
+                    } else if(tabbedPane.getSelectedComponent() == view_despacho.getPanel()) {
+                        SwingUtilities.invokeLater(() -> {
+                            controller_despacho.getRecetas();
+                        });
                     }
                 });
                 tabbedPane.addTab("Historico",new ImageIcon(Application.class.getResource("/Icons/historico.png")), view_historico.getPanel());
@@ -207,6 +219,10 @@ public class Application {
                     if(tabbedPane.getSelectedComponent() == view_historico.getPanel()) {
                         SwingUtilities.invokeLater(() -> {
                             controller_historico.getRecetas();
+                        });
+                    } else if(tabbedPane.getSelectedComponent() == view_despacho.getPanel()) {
+                        SwingUtilities.invokeLater(() -> {
+                            controller_despacho.getRecetas();
                         });
                     }
                 });
@@ -220,6 +236,10 @@ public class Application {
                     if(tabbedPane.getSelectedComponent() == view_dashboard.getPanel()) {
                         SwingUtilities.invokeLater(() -> {
                             controller_dashboard.getAllRecetas();
+                        });
+                    } else if(tabbedPane.getSelectedComponent() == view_despacho.getPanel()) {
+                        SwingUtilities.invokeLater(() -> {
+                            controller_despacho.getRecetas();
                         });
                     }
                 });

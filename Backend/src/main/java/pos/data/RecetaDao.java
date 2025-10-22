@@ -67,7 +67,8 @@ public class RecetaDao {
         stm.setDate(1, Date.valueOf( r.getFechaDeRetiro() ));
         stm.setString(2, r.getEstado());
         stm.setString(3, r.getPaciente().getId());
-        stm.setInt(4, r.getId());
+        stm.setString(4, r.getMedico().getId());
+        stm.setInt(5, r.getId());
         int count = db.executeUpdate(stm);
         if (count==0){
             throw new Exception("Error al actualizar receta");

@@ -1,6 +1,8 @@
 package pos.logic;
 
-public class Sesion {
+import java.io.Serializable;
+
+public class Sesion implements Serializable {
 
     private static Usuario usuario;
 

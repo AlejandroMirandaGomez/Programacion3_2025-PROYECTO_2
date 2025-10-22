@@ -95,8 +95,8 @@ public class Service {
     public List<Medico> filtrarMedicos(String tipo, String texto) {
         try{
             os.writeInt(Protocol.MEDICO_FILTER);
-            os.writeChars(tipo);
-            os.writeChars(texto);
+            os.writeObject(tipo);
+            os.writeObject(texto);
             os.flush();
             if(is.readInt() == Protocol.STATUS_NO_ERROR){
                 return (List<Medico>) is.readObject();
@@ -300,7 +300,7 @@ public class Service {
         os.writeObject(e);
         os.flush();
         if (is.readInt() != Protocol.STATUS_NO_ERROR) {
-            throw new Exception("Receta no existe");
+            throw new Exception("Error al actualizar la receta");
         }
     }
 
@@ -336,7 +336,7 @@ public class Service {
 
     public List<Receta> filtrarRecetas(String tipo, String texto1, String texto2) {
         try {
-            os.writeInt(Protocol.RECETA_FILTER); // si tienes un opcode específico, cámbialo aquí
+            os.writeInt(Protocol.RECETA_FILTER_2); // si tienes un opcode específico, cámbialo aquí
             os.writeObject(tipo);
             os.writeObject(texto1);
             os.writeObject(texto2);

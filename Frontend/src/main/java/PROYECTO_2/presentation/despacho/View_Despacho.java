@@ -47,7 +47,7 @@ public class View_Despacho implements PropertyChangeListener {
                 int row = tablaListaRecetas.getSelectedRow();
                 if (row >= 0) {
                     Receta r = model.getRecetas().get(row);
-                    model.setCurrentReceta(r);
+                    controller.setCurrentReceta(r);
                     editarEstado.setVisible(true);
                 }
             }

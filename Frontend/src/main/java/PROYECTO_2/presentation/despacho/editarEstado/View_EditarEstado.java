@@ -72,11 +72,17 @@ public class View_EditarEstado extends JDialog  implements PropertyChangeListene
 
     private void onOK() {
         // add your code here
+        try {
+            controller.saveState();
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(contentPane, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
         dispose();
     }
 
     private void onCancel() {
         // add your code here if necessary
+        controller.getRecetas();
         dispose();
     }
 

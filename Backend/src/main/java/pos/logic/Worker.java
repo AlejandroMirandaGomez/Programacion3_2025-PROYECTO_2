@@ -102,8 +102,8 @@ public class Worker {
                         break;
                     case Protocol.MEDICO_FILTER:
                         try {
-                            String tipo = is.readUTF();
-                            String texto = is.readUTF();
+                            String tipo = (String) is.readObject();;
+                            String texto = (String) is.readObject();;
                             List<Medico> data = service.filtrarMedicos(tipo, texto);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
@@ -152,8 +152,8 @@ public class Worker {
                         break;
                     case Protocol.FARMACEUTA_FILTER:
                         try {
-                            String tipo = is.readUTF();
-                            String texto = is.readUTF();
+                            String tipo = (String) is.readObject();;
+                            String texto = (String) is.readObject();;
                             List<Farmaceuta> data = service.filtrarFarmaceutas(tipo, texto);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
@@ -202,8 +202,8 @@ public class Worker {
                         break;
                     case Protocol.PACIENTE_FILTER:
                         try {
-                            String tipo = is.readUTF();
-                            String texto = is.readUTF();
+                            String tipo = (String) is.readObject();;
+                            String texto = (String) is.readObject();;
                             List<Paciente> data = service.filtrarPacientes(tipo, texto);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
@@ -252,8 +252,8 @@ public class Worker {
                         break;
                     case Protocol.MEDICAMENTO_FILTER:
                         try {
-                            String tipo = is.readUTF();
-                            String texto = is.readUTF();
+                            String tipo = (String) is.readObject();;
+                            String texto = (String) is.readObject();;
                             List<Medicamento> data = service.filtrarMedicamentos(tipo, texto);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
@@ -293,9 +293,21 @@ public class Worker {
                         break;
                     case Protocol.RECETA_FILTER:
                         try {
-                            String tipo = is.readUTF();
-                            String texto = is.readUTF();
+                            String tipo = (String) is.readObject();
+                            String texto = (String) is.readObject();
                             List<Receta> data = service.filtrarRecetas(tipo, texto);
+                            os.writeInt(Protocol.STATUS_NO_ERROR);
+                            os.writeObject(data);
+                        } catch (Exception ex) {
+                            os.writeInt(Protocol.STATUS_ERROR);
+                        }
+                        break;
+                    case Protocol.RECETA_FILTER_2:
+                        try {
+                            String tipo = (String) is.readObject();
+                            String texto1 = (String) is.readObject();
+                            String texto2 = (String) is.readObject();
+                            List<Receta> data = service.filtrarRecetas(tipo, texto1, texto2);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
                         } catch (Exception ex) {
