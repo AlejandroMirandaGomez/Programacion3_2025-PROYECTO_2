@@ -21,7 +21,7 @@ public class Controller_Medicos {
     public void create(Medico e) throws Exception{
         Service.getInstance().create(e);
         model.setCurrent(new Medico());
-        model.setMedicos(Service.getInstance().findAll());
+        model.setMedicos(Service.getInstance().findAllMedicos());
     }
 
     public void createUser(Usuario e) throws Exception{
@@ -47,7 +47,7 @@ public class Controller_Medicos {
     }
 
     public void getMedicos(){
-        List<Medico> list = Service.getInstance().findAll();
+        List<Medico> list = Service.getInstance().findAllMedicos();
         model.setMedicos(list);
     }
 
@@ -59,7 +59,7 @@ public class Controller_Medicos {
     public void remove(Medico e) throws Exception{
         Service.getInstance().removeMedico(e);
         model.setCurrent(new Medico());
-        model.setMedicos(Service.getInstance().findAll());
+        model.setMedicos(Service.getInstance().findAllMedicos());
     }
 
     public void edit(Medico e, Medico n) throws Exception{

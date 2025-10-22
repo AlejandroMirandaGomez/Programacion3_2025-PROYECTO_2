@@ -1,6 +1,9 @@
 package pos.logic;
 
-public class Medicamento {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Medicamento implements Serializable {
     // --- Atributos ---
     private String codigo;
     private String nombre;
@@ -42,5 +45,23 @@ public class Medicamento {
 
     public void setPresentacion(String presentacion) {
         this.presentacion = presentacion;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Medicamento e = (Medicamento) o;
+        return Objects.equals(codigo, e.codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

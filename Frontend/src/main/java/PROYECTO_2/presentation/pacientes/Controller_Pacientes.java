@@ -20,7 +20,7 @@ public class Controller_Pacientes {
     public void create(Paciente e) throws Exception{
         Service.getInstance().create(e);
         model.setCurrent(new Paciente());
-        model.setPacientes(Service.getInstance().getListaPacientes());
+        model.setPacientes(Service.getInstance().findAllPacientes());
     }
 
     public void clear() {
@@ -28,7 +28,7 @@ public class Controller_Pacientes {
     }
 
     public void getPacientes(){
-        List<Paciente> list = Service.getInstance().getListaPacientes();
+        List<Paciente> list = Service.getInstance().findAllPacientes();
         model.setPacientes(list);
     }
 
@@ -40,13 +40,13 @@ public class Controller_Pacientes {
     public void remove(Paciente e) throws Exception{
         Service.getInstance().removePaciente(e);
         model.setCurrent(new Paciente());
-        model.setPacientes(Service.getInstance().getListaPacientes());
+        model.setPacientes(Service.getInstance().findAllPacientes());
     }
 
     public void edit(Paciente n) throws Exception{
         Service.getInstance().update(n);
         model.setCurrent(new Paciente());
-        model.setPacientes(Service.getInstance().getListaPacientes());
+        model.setPacientes(Service.getInstance().findAllPacientes());
 
     }
 

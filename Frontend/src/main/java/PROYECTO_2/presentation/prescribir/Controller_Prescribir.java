@@ -46,7 +46,7 @@ public class Controller_Prescribir {
 
     //--Buscar Paciente--
     public void getPacientes() {
-        List<Paciente> pacientes= Service.getInstance().getListaPacientes();
+        List<Paciente> pacientes= Service.getInstance().findAllPacientes();
         model.setPacientes(pacientes);
     }
     public void filtrarPacientes(String tipo, String texto) {
@@ -60,7 +60,7 @@ public class Controller_Prescribir {
 
     //--Buscar Medicamentos--
     public void getMedicamentos(){
-        List<Medicamento> medicamentos= Service.getInstance().getListaMedicamentos();
+        List<Medicamento> medicamentos= Service.getInstance().findAllMedicamentos();
         model.setMedicamentos(medicamentos);
     }
     public void filtrarMedicamentos(String tipo, String texto) {

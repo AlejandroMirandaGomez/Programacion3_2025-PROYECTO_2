@@ -57,7 +57,7 @@ public class Service {
         return medicoDao.read(e);
     }
 
-    public List<Medico> findAll(){
+    public List<Medico> findAllMedicos(){
         return medicoDao.findAll();
     }
 
@@ -120,7 +120,7 @@ public class Service {
         pacienteDao.create(e);
     }
 
-    public List<Paciente> getListaPacientes() {
+    public List<Paciente> findAllPacientes() {
         return pacienteDao.findAll();
     }
 
@@ -160,7 +160,7 @@ public class Service {
         medicamentoDao.update(e);
     }
 
-    public List<Medicamento> getListaMedicamentos() {
+    public List<Medicamento> findAllMedicamentos() {
         return medicamentoDao.findAll();
     }
 
@@ -187,7 +187,7 @@ public class Service {
 
     // ================= Recetas =================
 
-    public List<Receta> getListaRecetas() {
+    public List<Receta> findAllRecetas() {
         return recetaDao.findAll();
     }
 
@@ -225,12 +225,6 @@ public class Service {
         recetaDao.update(e);
     }
 
-    public Medico getUsuario() throws Exception{
-        String id = Sesion.getUsuario().getId();
-        return Service.getInstance().read(id);
-    }
-
-
     // ================= Prescripciones =================
 
     public void create(Prescripcion e) throws Exception {
@@ -238,6 +232,11 @@ public class Service {
     }
 
     // ================= Usuario =================
+
+    public Medico getUsuario() throws Exception{
+        String id = Sesion.getUsuario().getId();
+        return Service.getInstance().read(id);
+    }
 
     public Usuario read(Usuario e) throws Exception {
         return usuarioDao.read(e.getId());
@@ -247,7 +246,7 @@ public class Service {
         usuarioDao.create(e);
     }
 
-    public List<Usuario> getListaUsuarios() {
+    public List<Usuario> findAllUsuarios() {
         return usuarioDao.findAll();
     }
 

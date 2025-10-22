@@ -27,7 +27,7 @@ public class Controller_Dashboard {
 
     //--Buscar Recetas--
     public void getAllRecetas() {
-        List<Receta> recetas = Service.getInstance().getListaRecetas();
+        List<Receta> recetas = Service.getInstance().findAllRecetas();
         model.setAllRecetas(recetas);
     }
 
@@ -66,7 +66,7 @@ public class Controller_Dashboard {
 
     //--Buscar Medicamentos--
     public void getAllMedicamentos(){
-        List<Medicamento> medicamentos= Service.getInstance().getListaMedicamentos();
+        List<Medicamento> medicamentos= Service.getInstance().findAllMedicamentos();
         model.setMedicamentos(medicamentos);
     }
     public void filtrarMedicamentos(String tipo, String texto) {

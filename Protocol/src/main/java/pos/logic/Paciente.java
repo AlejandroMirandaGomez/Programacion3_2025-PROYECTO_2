@@ -2,8 +2,9 @@ package pos.logic;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.io.Serializable;
 
-public class Paciente {
+public class Paciente implements Serializable {
     // --- Atributos ---
     private String id;
     private String nombre;
@@ -76,5 +77,10 @@ public class Paciente {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 }

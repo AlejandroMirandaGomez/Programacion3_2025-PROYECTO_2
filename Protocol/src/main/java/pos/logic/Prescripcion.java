@@ -1,6 +1,9 @@
 package pos.logic;
 
-public class Prescripcion {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Prescripcion implements Serializable {
     // --- Atributos ---
     private int id;
     private String indicaciones;
@@ -70,4 +73,22 @@ public class Prescripcion {
     public Receta getReceta() { return receta; }
 
     public void setReceta(Receta receta) { this.receta = receta; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prescripcion e = (Prescripcion) o;
+        return Objects.equals(id, e.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return indicaciones;
+    }
 }

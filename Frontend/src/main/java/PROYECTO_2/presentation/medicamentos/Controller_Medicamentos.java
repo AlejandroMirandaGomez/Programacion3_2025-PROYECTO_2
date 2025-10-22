@@ -20,7 +20,7 @@ public class Controller_Medicamentos {
     public void create(Medicamento e) throws Exception{
         Service.getInstance().create(e);
         model.setCurrent(new Medicamento());
-        model.setMedicamentos(Service.getInstance().getListaMedicamentos());
+        model.setMedicamentos(Service.getInstance().findAllMedicamentos());
     }
 
 
@@ -29,7 +29,7 @@ public class Controller_Medicamentos {
     }
 
     public void getMedicamentos(){
-        List<Medicamento> list = Service.getInstance().getListaMedicamentos();
+        List<Medicamento> list = Service.getInstance().findAllMedicamentos();
         model.setMedicamentos(list);
     }
 
@@ -41,13 +41,13 @@ public class Controller_Medicamentos {
     public void remove(Medicamento e) throws Exception{
         Service.getInstance().removeMedicamento(e);
         model.setCurrent(new Medicamento());
-        model.setMedicamentos(Service.getInstance().getListaMedicamentos());
+        model.setMedicamentos(Service.getInstance().findAllMedicamentos());
     }
 
     public void edit(Medicamento n) throws Exception{
         Service.getInstance().update(n);
         model.setCurrent(new Medicamento());
-        model.setMedicamentos(Service.getInstance().getListaMedicamentos());
+        model.setMedicamentos(Service.getInstance().findAllMedicamentos());
 
     }
 

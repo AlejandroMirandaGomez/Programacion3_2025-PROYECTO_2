@@ -22,7 +22,7 @@ public class Controller_Despacho {
 
     //--Buscar Recetas--
     public void getRecetas() {
-        List<Receta> recetas = Service.getInstance().getListaRecetas();
+        List<Receta> recetas = Service.getInstance().findAllRecetas();
         model.setRecetas(recetas);
     }
     public void filtrarRecetas(String tipo, String texto) {
@@ -40,7 +40,7 @@ public class Controller_Despacho {
 
     //--Buscar Paciente--
     public void getPacientes() {
-        List<Paciente> pacientes= Service.getInstance().getListaPacientes();
+        List<Paciente> pacientes= Service.getInstance().findAllPacientes();
         model.setPacientes(pacientes);
     }
     public void filtrarPacientes(String tipo, String texto) {

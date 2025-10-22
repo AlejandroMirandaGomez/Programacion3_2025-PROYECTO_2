@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-
 public class View_Login extends JDialog implements PropertyChangeListener{
     private JPanel panel;
     private JTextField idFld;
@@ -104,6 +103,4 @@ public class View_Login extends JDialog implements PropertyChangeListener{
     public boolean isAuthenticated() {
         return authenticated;
     }
-
-
 }

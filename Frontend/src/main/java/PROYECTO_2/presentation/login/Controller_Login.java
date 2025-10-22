@@ -13,8 +13,8 @@ public class Controller_Login {
         this.model = model;
         view.setController(this);
         view.setModel(model);
+        Service.getInstance();
     }
-
 
     public void login(Usuario usuario) throws Exception{
         Usuario logged = Service.getInstance().read(usuario);

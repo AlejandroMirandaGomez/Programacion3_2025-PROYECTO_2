@@ -3,8 +3,10 @@ package pos.logic;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Receta {
+public class Receta implements Serializable {
     // --- Atributos ---
     private Integer id;
     private LocalDate fechaDeRetiro;
@@ -64,5 +66,23 @@ public class Receta {
     }
     public void eliminarPrescripcion(Prescripcion p) {
         this.prescripciones.remove(p);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Receta e = (Receta) o;
+        return Objects.equals(id, e.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return estado;
     }
 }
