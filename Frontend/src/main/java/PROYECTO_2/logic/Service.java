@@ -365,13 +365,17 @@ public class Service {
     // ================= Usuario =================
 
     public Medico getUsuario() throws Exception {
-        os.writeInt(Protocol.USUARIO_GET_CURRENT);
-        os.flush();
-        if (is.readInt() == Protocol.STATUS_NO_ERROR) {
-            return (Medico) is.readObject();
-        } else {
-            throw new Exception("Usuario no existe");
-        }
+//        os.writeInt(Protocol.USUARIO_GET_CURRENT);
+//        os.flush();
+//        if (is.readInt() == Protocol.STATUS_NO_ERROR) {
+//            return (Medico) is.readObject();
+//        } else {
+//            throw new Exception("Usuario no existe");
+//        }
+        String id = Sesion.getUsuario().getId();
+        Medico e = new Medico();
+        e.setId(id);
+        return Service.getInstance().read(e);
     }
 
     public void create(Usuario e) throws Exception {
