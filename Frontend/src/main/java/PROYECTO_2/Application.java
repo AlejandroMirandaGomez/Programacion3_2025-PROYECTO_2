@@ -31,6 +31,8 @@ import PROYECTO_2.presentation.pacientes.View_Pacientes;
 import PROYECTO_2.presentation.prescribir.Controller_Prescribir;
 import PROYECTO_2.presentation.prescribir.Model_Prescribir;
 import PROYECTO_2.presentation.prescribir.View_Prescribir;
+import PROYECTO_2.presentation.usuarios.Controller_Usuarios;
+import PROYECTO_2.presentation.usuarios.Model_Usuarios;
 import PROYECTO_2.presentation.usuarios.View_Usuarios;
 import pos.logic.Sesion;
 
@@ -121,6 +123,8 @@ public class Application {
 
         //Usuarios MVC
         View_Usuarios view_usuarios = new View_Usuarios();
+        Model_Usuarios model_usuarios = new Model_Usuarios();
+        Controller_Usuarios controller_usuarios = new Controller_Usuarios(view_usuarios, model_usuarios);
 
         // *************************************************************************************************************
 

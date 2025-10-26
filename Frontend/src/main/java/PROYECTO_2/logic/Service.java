@@ -20,12 +20,23 @@ public class Service {
     ObjectOutputStream os;
     ObjectInputStream is;
 
+    String sid;
+
     public Service() {
         try {
             s = new Socket(Protocol.SERVER, Protocol.PORT);
             os = new ObjectOutputStream(s.getOutputStream());
             is = new ObjectInputStream(s.getInputStream());
+
+            os.writeInt(Protocol.SYNC);
+            os.flush();
+            sid=(String)is.readObject();
+
         } catch (Exception e) { System.exit(-1);}
+    }
+
+    public String getSid() {
+        return sid;
     }
 
     private void disconnect() throws Exception {
@@ -420,4 +431,15 @@ public class Service {
             throw new RuntimeException(e);
         }
     }
+    public void enviarMensaje(String para, String e) throws Exception {
+        os.writeInt(Protocol.DELIVER_MESSAGE);
+        os.writeObject(para);
+        os.writeObject(e);
+        os.flush();
+        System.out.println("ENVIANDOOOOOOO");
+        if (is.readInt() != Protocol.STATUS_NO_ERROR) {
+            throw new Exception("Error al enviar mensaje");
+        }
+    }
+
 }

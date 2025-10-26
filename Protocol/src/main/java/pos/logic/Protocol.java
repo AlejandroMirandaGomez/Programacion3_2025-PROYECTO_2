@@ -53,5 +53,11 @@ public class Protocol {
     public static final int STATUS_NO_ERROR=0;
     public static final int STATUS_ERROR=1;
 
+    public static final int SYNC=5;
+    public static final int ASYNC=6;
+    public static final int DELIVER_MESSAGE=7;
+    public static final int LOGGEDIN=8;
+    public static final int LOGGEDOUT=9;
+
     public static final int DISCONNECT=99;
 }

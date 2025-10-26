@@ -1,7 +1,5 @@
 package pos.logic;
 
-import pos.logic.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,14 +13,26 @@ public class Worker {
     ObjectOutputStream os;
     ObjectInputStream is;
 
-    public Worker(Server srv, Socket s, Service service) {
-        try{
-            this.srv=srv;
-            this.s=s;
-            os = new ObjectOutputStream(s.getOutputStream());
-            is = new ObjectInputStream(s.getInputStream());
-            this.service=service;
-        } catch (IOException ex) { System.out.println(ex); }
+    String sid; // Session Id
+    Socket as; // Asynchronous Socket
+    ObjectOutputStream aos;
+    ObjectInputStream ais;
+
+    public Worker(Server srv, Socket s,ObjectOutputStream os, ObjectInputStream is, String sid, Service service) {
+
+        this.srv=srv;
+        this.s=s;
+        this.os = os;
+        this.is = is;
+        this.service=service;
+        this.sid=sid;
+
+    }
+    public void setAs(Socket as,ObjectOutputStream aos, ObjectInputStream ais ){
+        this.as=as;
+        this.aos=aos;
+        this.ais=ais;
+        System.out.println("ASINCRONICO");
     }
 
     boolean continuar;
@@ -42,6 +52,19 @@ public class Worker {
     public void stop(){
         continuar=false;
         System.out.println("Conexion cerrada...");
+        srv.notifyUserDisconnected(this);
+    }
+
+    public void sendNotification(int type, String message) {
+        if (as != null) {
+            try {
+                aos.writeInt(type);
+                aos.writeObject(message);
+                aos.flush();
+            } catch (IOException e) {
+                System.out.println("Error enviando notificación: " + e.getMessage());
+            }
+        }
     }
     
     public void listen(){
@@ -344,6 +367,11 @@ public class Worker {
                             Usuario data = service.read(e);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
+
+                            //Notifica que se conceto
+                            if (data != null) { // login válido
+                                srv.notifyUserConnected(this, data.getId(), sid);
+                            }
                         }catch (Exception ex){
                             os.writeInt(Protocol.STATUS_ERROR);
                         }
@@ -371,6 +399,20 @@ public class Worker {
                             Medico data = service.getUsuario();
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
+                        } catch (Exception ex) {
+                            os.writeInt(Protocol.STATUS_ERROR);
+                        }
+                        break;
+                    case Protocol.DELIVER_MESSAGE:
+                        try {
+                            System.out.println("LLEGOOOOO");
+                            String destinoId = (String) is.readObject();
+                            String texto = (String) is.readObject();
+
+
+                            srv.sendMessage(this, destinoId, texto);
+
+                            os.writeInt(Protocol.STATUS_NO_ERROR);
                         } catch (Exception ex) {
                             os.writeInt(Protocol.STATUS_ERROR);
                         }
