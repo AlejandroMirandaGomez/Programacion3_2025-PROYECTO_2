@@ -431,12 +431,11 @@ public class Service {
             throw new RuntimeException(e);
         }
     }
-    public void enviarMensaje(String para, String e) throws Exception {
+    public void enviarMensaje(Usuario usuario, String e) throws Exception {
         os.writeInt(Protocol.DELIVER_MESSAGE);
-        os.writeObject(para);
+        os.writeObject(usuario);
         os.writeObject(e);
         os.flush();
-        System.out.println("ENVIANDOOOOOOO");
         if (is.readInt() != Protocol.STATUS_NO_ERROR) {
             throw new Exception("Error al enviar mensaje");
         }

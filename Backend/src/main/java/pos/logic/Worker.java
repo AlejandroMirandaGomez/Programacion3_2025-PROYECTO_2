@@ -18,6 +18,8 @@ public class Worker {
     ObjectOutputStream aos;
     ObjectInputStream ais;
 
+    Usuario usuario;
+
     public Worker(Server srv, Socket s,ObjectOutputStream os, ObjectInputStream is, String sid, Service service) {
 
         this.srv=srv;
@@ -27,12 +29,16 @@ public class Worker {
         this.service=service;
         this.sid=sid;
 
+
     }
     public void setAs(Socket as,ObjectOutputStream aos, ObjectInputStream ais ){
         this.as=as;
         this.aos=aos;
         this.ais=ais;
         System.out.println("ASINCRONICO");
+    }
+    public void setUsuario(Usuario usuario){
+        this.usuario=usuario;
     }
 
     boolean continuar;
@@ -55,10 +61,11 @@ public class Worker {
         srv.notifyUserDisconnected(this);
     }
 
-    public void sendNotification(int type, String message) {
+    public void sendMessage(int type, Usuario user, String message) {
         if (as != null) {
             try {
                 aos.writeInt(type);
+                aos.writeObject(user);
                 aos.writeObject(message);
                 aos.flush();
             } catch (IOException e) {
@@ -66,7 +73,23 @@ public class Worker {
             }
         }
     }
-    
+    public void sendNotification(int type, Usuario user) {
+        if (as != null) {
+            try {
+                aos.writeInt(type);
+                aos.writeObject(user);
+                aos.flush();
+
+            } catch (IOException e) {
+                System.out.println("Error enviando notificación: " + e.getMessage());
+            }
+        }
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public void listen(){
         int method;
         while (continuar) {
@@ -370,7 +393,9 @@ public class Worker {
 
                             //Notifica que se conceto
                             if (data != null) { // login válido
-                                srv.notifyUserConnected(this, data.getId(), sid);
+                                setUsuario(e);
+
+                                srv.notifyUserConnected(this,e);
                             }
                         }catch (Exception ex){
                             os.writeInt(Protocol.STATUS_ERROR);
@@ -405,12 +430,11 @@ public class Worker {
                         break;
                     case Protocol.DELIVER_MESSAGE:
                         try {
-                            System.out.println("LLEGOOOOO");
-                            String destinoId = (String) is.readObject();
+                            Usuario user = (Usuario)is.readObject();
                             String texto = (String) is.readObject();
 
 
-                            srv.sendMessage(this, destinoId, texto);
+                            srv.sendMessage(usuario, user, texto);
 
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                         } catch (Exception ex) {

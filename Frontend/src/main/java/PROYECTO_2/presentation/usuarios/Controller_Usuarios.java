@@ -1,15 +1,13 @@
 package PROYECTO_2.presentation.usuarios;
 
 import PROYECTO_2.logic.Service;
-import PROYECTO_2.presentation.SocketListener;
 import PROYECTO_2.presentation.ThreadListener;
-import PROYECTO_2.presentation.usuarios.Model_Usuarios;
-import PROYECTO_2.presentation.usuarios.View_Usuarios;
+import pos.logic.Usuario;
 import pos.logic.UsuarioChat;
 
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Controller_Usuarios implements ThreadListener {
     View_Usuarios view;
@@ -36,7 +34,7 @@ public class Controller_Usuarios implements ThreadListener {
     }
     public void enviarMensaje(String mensaje) throws Exception{
 
-        Service.getInstance().enviarMensaje(model.getUsuarioSeleccionado().getIdServer(),mensaje);
+        Service.getInstance().enviarMensaje(model.getUsuarioSeleccionado().getUsuario(),mensaje);
     }
     public String getMensajes(){
         UsuarioChat n = model.getUsuarioSeleccionado();
@@ -47,10 +45,10 @@ public class Controller_Usuarios implements ThreadListener {
     }
 
     @Override
-    public void deliver_message(String idServerEmisor, String message) {
+    public void deliver_message(Usuario usuario, String message) {
         List<UsuarioChat> n = new ArrayList<>(model.getUsuarios());
         for (UsuarioChat u : n){
-            if(u.getIdServer().equals(idServerEmisor)){
+            if(Objects.equals(u.getUsuario().getId(), usuario.getId())){
                 u.addMensaje(message);
             }
         }
@@ -59,8 +57,8 @@ public class Controller_Usuarios implements ThreadListener {
     }
 
     @Override
-    public void loggedIn(String nombre, String idServer) {
-        UsuarioChat nuevo = new UsuarioChat(idServer, nombre);
+    public void loggedIn(Usuario usuario) {
+        UsuarioChat nuevo = new UsuarioChat(usuario);
         List<UsuarioChat> n = new ArrayList<>(model.getUsuarios());
         n.add(nuevo);
         model.setUsuarios(n);
@@ -69,9 +67,9 @@ public class Controller_Usuarios implements ThreadListener {
     }
 
     @Override
-    public void loggedOut(String idServer) {
+    public void loggedOut(Usuario usuario) {
         List<UsuarioChat> n = new ArrayList<>(model.getUsuarios());
-        n.removeIf(u -> u.getIdServer().equals(idServer));
+        n.removeIf(u -> u.getUsuario().getId().equals(usuario.getId()));
         model.setUsuarios(n);
 
     }

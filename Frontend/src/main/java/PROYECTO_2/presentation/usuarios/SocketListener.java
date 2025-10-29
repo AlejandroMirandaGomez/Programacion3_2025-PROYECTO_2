@@ -1,6 +1,8 @@
-package PROYECTO_2.presentation;
+package PROYECTO_2.presentation.usuarios;
 
+import PROYECTO_2.presentation.ThreadListener;
 import pos.logic.Protocol;
+import pos.logic.Usuario;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -51,26 +53,25 @@ public class SocketListener {
                     case Protocol.DELIVER_MESSAGE:
                         try {
 
+                            Usuario usuario = (Usuario) ais.readObject();
                             String message = (String) ais.readObject();
-                            String[] msg = message.split(",");
-                            deliver(msg[0], msg[1]); // emisor, mensaje
+                            deliver(usuario, message); // emisor, mensaje
                         } catch (ClassNotFoundException ex) {
                             break;
                         }
                         break;
                     case Protocol.LOGGEDIN:
                         try {
-                            String message = (String) ais.readObject();
-                            String[] conectado = message.split(",");
-                            loggedIn(conectado[0], conectado[1]); // nombre, id
+                            Usuario usuario = (Usuario) ais.readObject();
+                            loggedIn(usuario); // nombre, id
                         } catch (ClassNotFoundException ex) {
                             break;
                         }
                         break;
                     case Protocol.LOGGEDOUT:
                         try {
-                            String idServer = (String) ais.readObject();
-                            loggedOut(idServer);
+                            Usuario usuario = (Usuario) ais.readObject();
+                            loggedOut(usuario);
                         } catch (ClassNotFoundException ex) {
                             break;
                         }
@@ -84,24 +85,24 @@ public class SocketListener {
         } catch (IOException e) { }
     }
 
-    private void deliver(final String idServerEmisor, final String message) {
+    private void deliver(final Usuario usuarioEmisor, final String message) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                listener.deliver_message(idServerEmisor, message);
+                listener.deliver_message(usuarioEmisor, message);
             }
         });
     }
-    private void loggedIn(final String nombre, final String idServer) {
+    private void loggedIn(final Usuario usuario) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                listener.loggedIn(nombre,idServer);
+                listener.loggedIn(usuario);
             }
         });
     }
-    private void loggedOut(final String idServer) {
+    private void loggedOut(final Usuario usuario) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                listener.loggedOut(idServer);
+                listener.loggedOut(usuario);
             }
         });
     }

@@ -97,7 +97,7 @@ public class View_EnviarMensaje extends JDialog implements PropertyChangeListene
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case Model_Usuarios.SELECCIONADO:
-                destino.setText(model.getUsuarioSeleccionado().getId());
+                destino.setText(model.getUsuarioSeleccionado().getUsuario().getId());
 
                 break;
         }

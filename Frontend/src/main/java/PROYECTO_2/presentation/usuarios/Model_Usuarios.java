@@ -20,7 +20,7 @@ public class Model_Usuarios extends AbstractModel {
     public Model_Usuarios(){
 
         usuarios = new ArrayList<>();
-        usuarioSeleccionado = new UsuarioChat("x","y");
+        usuarioSeleccionado = new UsuarioChat(new Usuario());
     }
 
     @Override

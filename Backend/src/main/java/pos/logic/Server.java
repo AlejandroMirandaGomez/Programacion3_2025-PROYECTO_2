@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Server {
     ServerSocket ss;
@@ -58,52 +59,61 @@ public class Server {
         for (Worker w:workers){
             if(w.sid.equals(sid)){
                 w.setAs(as, aos, ais);
-                verQuienesEstan(w);
+                connectedUsers(w);
                 break;
             }
         }
     }
-    public void verQuienesEstan(Worker from){
-        int i=1;
+    public void connectedUsers(Worker from){
+        List<String> ids = new ArrayList<>();
         for (Worker w : workers) {
-            if (w != from) {
-                String mensaje = i + "," + w.sid;
-                from.sendNotification(Protocol.LOGGEDIN, mensaje);
-                i++;
+            if (!Objects.equals(w.getUsuario().getId(), from.getUsuario().getId()) && !ids.contains(w.getUsuario().getId())) {
+                from.sendNotification(Protocol.LOGGEDIN, w.getUsuario());
+                ids.add(w.getUsuario().getId());
 
             }
         }
     }
-    //METODO PARA PROBAR. SI SIRVE PERO EL PROBLEMA ES QUE NO TENGO EL NOMBRE
+
     public void remove(Worker w) {
         workers.remove(w);
         System.out.println("Quedan: " +workers.size());
     }
-    public void notifyUserConnected(Worker from, String nombre, String sid) {
-        String mensaje = nombre + "," + sid;
-        System.out.println("Usuario conectado: " + mensaje);
-        for (Worker w : workers) {
-            if (w != from) {
-                w.sendNotification(Protocol.LOGGEDIN, mensaje);
+    public void notifyUserConnected(Worker from, Usuario user) {
+        System.out.println("Usuario conectado: " + user.getId());
 
+        boolean alreadyConnected = workers.stream()
+                .filter(w -> w != from)
+                .anyMatch(w -> w.getUsuario().getId().equals(user.getId()));
+
+        if (!alreadyConnected) {
+            for (Worker w : workers) {
+                if (!Objects.equals(w.getUsuario().getId(), user.getId())) {
+                    w.sendNotification(Protocol.LOGGEDIN, user);
+                }
             }
         }
     }
 
     public void notifyUserDisconnected(Worker from) {
-        String mensaje = from.sid;
         workers.remove(from);
-        System.out.println("Usuario desconectado: " + mensaje);
-        for (Worker w : workers) {
-            w.sendNotification(Protocol.LOGGEDOUT, mensaje);
+        System.out.println("Usuario desconectado: " +from.getUsuario().getId() );
+
+        boolean stillConnected = workers.stream()
+                .anyMatch(w -> w.getUsuario().equals(from.getUsuario()));
+
+        if (!stillConnected) {
+            for (Worker w : workers) {
+                w.sendNotification(Protocol.LOGGEDOUT, from.getUsuario());
+            }
         }
+
     }
-    public void sendMessage(Worker from, String destinoId, String texto) {
+    public void sendMessage(Usuario from, Usuario destino, String texto) {
 
         for (Worker w : workers) {
-            if (w.sid.equals(destinoId)) {
-                String mensaje = from.sid + "," + texto;
-                w.sendNotification(Protocol.DELIVER_MESSAGE, mensaje);
+            if (w.getUsuario().getId().equals(destino.getId())) {
+                w.sendMessage(Protocol.DELIVER_MESSAGE, from , texto);
                 break;
             }
         }

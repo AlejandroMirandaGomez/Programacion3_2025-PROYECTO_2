@@ -1,7 +1,9 @@
 package PROYECTO_2.presentation;
 
+import pos.logic.Usuario;
+
 public interface ThreadListener {
-    void deliver_message(String idServerEmisor, String message);
-    void loggedIn(String nombre, String idServer);
-    void loggedOut(String idServer);
+    void deliver_message(Usuario usuarioEmisor, String message);
+    void loggedIn(Usuario usuario);
+    void loggedOut(Usuario usuario);
 }

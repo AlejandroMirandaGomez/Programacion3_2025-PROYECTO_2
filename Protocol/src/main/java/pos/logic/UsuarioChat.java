@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioChat {
-    String idServer;
-    String id;
+    Usuario usuario;
     String nombre;
     List<String> mensajes;
 
-    public UsuarioChat(String idServer, String id) {
-        this.idServer = idServer;
-        this.id = id;
-        this.nombre = id+" (0)";
+    public UsuarioChat(Usuario  usuario) {
+        this.usuario = usuario;
+        this.nombre = usuario.getId()+" (0)";
         this.mensajes = new ArrayList<String>();
     }
 
@@ -24,23 +22,17 @@ public class UsuarioChat {
         this.nombre = nombre;
     }
 
-    public String getIdServer() {
-        return idServer;
-    }
 
-    public void setIdServer(String idServer) {
-        this.idServer = idServer;
-    }
 
     public String getMensaje() {
         String msg =mensajes.get(0);
         mensajes.remove(0);
-        setNombre(id+" ("+sizeMensajes()+")");
+        setNombre(usuario.getId()+" ("+sizeMensajes()+")");
         return msg;
     }
     public void addMensaje(String mensaje) {
         mensajes.add(mensaje);
-        setNombre(id+" ("+sizeMensajes()+")");
+        setNombre(usuario.getId()+" ("+sizeMensajes()+")");
     }
 
     public void setMensjes(List<String> mensajes) {
@@ -54,11 +46,11 @@ public class UsuarioChat {
         return !mensajes.isEmpty();
     }
 
-    public String getId() {
-        return id;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
