@@ -114,7 +114,6 @@ public class Server {
         for (Worker w : workers) {
             if (w.getUsuario().getId().equals(destino.getId())) {
                 w.sendMessage(Protocol.DELIVER_MESSAGE, from , texto);
-                break;
             }
         }
     }
