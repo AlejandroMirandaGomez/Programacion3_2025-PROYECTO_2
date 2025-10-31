@@ -391,12 +391,7 @@ public class Worker {
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
 
-                            //Notifica que se conceto
-                            if (data != null) { // login válido
-                                setUsuario(e);
 
-                                srv.notifyUserConnected(this,e);
-                            }
                         }catch (Exception ex){
                             os.writeInt(Protocol.STATUS_ERROR);
                         }
@@ -435,6 +430,22 @@ public class Worker {
 
 
                             srv.sendMessage(usuario, user, texto);
+
+                            os.writeInt(Protocol.STATUS_NO_ERROR);
+                        } catch (Exception ex) {
+                            os.writeInt(Protocol.STATUS_ERROR);
+                        }
+                        break;
+                    case Protocol.LOGGEDIN:
+                        try {
+                            Usuario user = (Usuario)is.readObject();
+
+                            //Notifica que se conceto
+                            if (user != null) { // login válido
+                                setUsuario(user);
+
+                                srv.notifyUserConnected(this,user);
+                            }
 
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                         } catch (Exception ex) {

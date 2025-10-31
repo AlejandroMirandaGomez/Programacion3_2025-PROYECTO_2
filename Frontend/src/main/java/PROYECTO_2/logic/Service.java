@@ -440,5 +440,13 @@ public class Service {
             throw new Exception("Error al enviar mensaje");
         }
     }
+    public void loggedIn(Usuario usuario) throws Exception {
+        os.writeInt(Protocol.LOGGEDIN);
+        os.writeObject(usuario);
+        os.flush();
+        if (is.readInt() != Protocol.STATUS_NO_ERROR) {
+            throw new Exception("Error al iniciar sesion");
+        }
+    }
 
 }

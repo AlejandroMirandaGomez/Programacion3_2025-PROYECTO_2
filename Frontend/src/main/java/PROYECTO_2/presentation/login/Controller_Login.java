@@ -22,6 +22,7 @@ public class Controller_Login {
             throw new Exception("Usuario o clave incorrectos");
         }
         Sesion.setUsuario(logged);
+        Service.getInstance().loggedIn(logged);
     }
 
     public void changePassword(Usuario usuario, String newPassword)throws  Exception{
