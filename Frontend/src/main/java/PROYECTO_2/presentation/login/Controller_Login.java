@@ -32,5 +32,8 @@ public class Controller_Login {
             logged.setPassword(newPassword);
             Service.getInstance().update(logged);
         }
+        else{
+            throw new Exception("Usuario o clave incorrectos");
+        }
     }
 }

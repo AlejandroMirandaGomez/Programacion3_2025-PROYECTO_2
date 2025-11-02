@@ -41,10 +41,13 @@ public class View_ChangePassword extends JDialog{
                         controller.changePassword(usuario, nuevaFld.getText());
 
                         JOptionPane.showMessageDialog(null, "REGISTRO APLICADO", "", JOptionPane.INFORMATION_MESSAGE);
+
+                        dispose();
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    dispose();
+                    clean();
+
                 }
             }
         });
@@ -109,6 +112,13 @@ public class View_ChangePassword extends JDialog{
 
 
         return valid;
+    }
+
+    public void clean(){
+        usuarioFld.setText("");
+        passwordFld.setText("");
+        nuevaFld.setText("");
+        nuevaOtraFld.setText("");
     }
 
 }
