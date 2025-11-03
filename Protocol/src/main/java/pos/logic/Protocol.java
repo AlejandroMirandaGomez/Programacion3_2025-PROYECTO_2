@@ -39,6 +39,9 @@ public class Protocol {
     public static final int RECETA_FIND_ALL=505;
     public static final int RECETA_FILTER=506;
     public static final int RECETA_FILTER_2=507;
+    public static final int RECETA_CONTEO_POR_ESTADO=508;
+    public static final int RECETA_CANTIDADES_POR_MEDICAMENTO_Y_MES=509;
+
 
     public static final int PRESCRIPCION_CREATE=550;
 

@@ -2,8 +2,10 @@ package pos.logic;
 
 import pos.data.*;
 
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Service {
     private static Service Instance;
@@ -223,6 +225,14 @@ public class Service {
 
     public void update(Receta e) throws Exception {
         recetaDao.update(e);
+    }
+
+    public Map<String, Integer> conteoRecetasPorEstado() {
+        return recetaDao.conteoPorEstado();
+    }
+
+    public Map<String, Map<YearMonth, Integer>> agruparRecetas_CantidadesPorMedicamentoYMes(List<MedicamentoResumen> medicamentosResumen) {
+        return recetaDao.agruparCantidadesPorMedicamentoYMes(medicamentosResumen);
     }
 
     // ================= Prescripciones =================

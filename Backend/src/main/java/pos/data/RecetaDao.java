@@ -1,13 +1,15 @@
 package pos.data;
 
+import pos.logic.MedicamentoResumen;
 import pos.logic.Receta;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.*;
 
 public class RecetaDao {
     Database db;
@@ -199,5 +201,105 @@ public class RecetaDao {
         } catch (SQLException ex) {
             return null;
         }
+    }
+
+    public Map<String, Integer> conteoPorEstado() {
+        // Orden fijo: EN_PROCESO, LISTA, ENTREGADA, CONFECCIONADA
+        Map<String, Integer> m = new LinkedHashMap<>();
+        m.put("En Proceso", 0);
+        m.put("Lista", 0);
+        m.put("Entregada", 0);
+        m.put("Confeccionada", 0);
+
+        String sql = "SELECT estado, COUNT(*) AS c FROM Receta GROUP BY estado";
+        try {
+            PreparedStatement stm = db.prepareStatement(sql);
+            ResultSet rs = db.executeQuery(stm);
+            while (rs.next()) {
+                String estado = rs.getString("estado");
+                if (m.containsKey(estado)) {
+                    m.put(estado, m.get(estado) + rs.getInt("c"));
+                }
+                // Si llega un estado no contemplado, simplemente se ignora
+            }
+        } catch (SQLException ex) {
+        }
+        return m;
+    }
+
+    public Map<String, Map<YearMonth, Integer>> agruparCantidadesPorMedicamentoYMes(List<MedicamentoResumen> medicamentosResumen) {
+        Map<String, Map<YearMonth, Integer>> resultado = new LinkedHashMap<>();
+
+        // Comportamiento: si la lista es null o vacía, devuelve mapa vacío
+        if (medicamentosResumen == null || medicamentosResumen.isEmpty()) {
+            return resultado;
+        }
+
+        // 1) Índice por nombre (case-insensitive) -> MedicamentoResumen
+        Map<String, MedicamentoResumen> indexPorNombre = new LinkedHashMap<>();
+        for (MedicamentoResumen mr : medicamentosResumen) {
+            if (mr == null || mr.getNombre() == null) continue;
+
+            String key = mr.getNombre().trim().toLowerCase(Locale.ROOT);
+            indexPorNombre.put(key, mr);
+
+            // 2) Pre-crear serie de ese medicamento (clave externa = nombre tal cual viene en el MR)
+            Map<YearMonth, Integer> serie = new LinkedHashMap<>();
+
+            LocalDate d = mr.getFechaDesde();
+            LocalDate h = mr.getFechaHasta();
+            // Pre-llenar con 0 si ambos límites existen (inclusive)
+            if (d != null && h != null) {
+                YearMonth start = YearMonth.from(d);
+                YearMonth end   = YearMonth.from(h);
+                for (YearMonth m = start; !m.isAfter(end); m = m.plusMonths(1)) {
+                    serie.put(m, 0);
+                }
+            }
+            resultado.putIfAbsent(mr.getNombre(), serie);
+        }
+
+        // 3) Consultar BD: Receta + Prescripcion + Medicamento (nombre) y sumar por YearMonth
+        //    Ajusta los nombres de columnas/tablas si en tu esquema difieren.
+        String sql =
+                "SELECT r.fechaDeRetiro AS fecha, m.nombre AS med_nombre, pr.cantidad AS cantidad " +
+                        "FROM Receta r " +
+                        "JOIN Prescripcion pr ON pr.receta = r.id " +
+                        "JOIN Medicamento  m  ON m.codigo = pr.medicamento";
+        try {
+            PreparedStatement stm = db.prepareStatement(sql);
+            ResultSet rs = db.executeQuery(stm);
+
+            while (rs.next()) {
+                Date fechaSql = rs.getDate("fecha");
+                if (fechaSql == null) continue;
+                LocalDate fecha = fechaSql.toLocalDate();
+
+                String nombre = rs.getString("med_nombre");
+                if (nombre == null) continue;
+
+                // Ubicar el MR correspondiente por nombre (case-insensitive)
+                MedicamentoResumen mr = indexPorNombre.get(nombre.trim().toLowerCase(Locale.ROOT));
+                if (mr == null) continue; // si no está en la lista seleccionada, se ignora
+
+                // Filtro de rango del propio MR (inclusive)
+                LocalDate desde = mr.getFechaDesde();
+                LocalDate hasta = mr.getFechaHasta();
+                if (desde != null && fecha.isBefore(desde)) continue;
+                if (hasta != null && fecha.isAfter(hasta)) continue;
+
+                YearMonth ym = YearMonth.from(fecha);
+
+                // Serie por nombre EXACTO como viene en el MR
+                Map<YearMonth, Integer> serie = resultado.computeIfAbsent(mr.getNombre(), k -> new LinkedHashMap<>());
+                serie.putIfAbsent(ym, 0);
+
+                int cantidad = rs.getInt("cantidad");
+                serie.put(ym, serie.get(ym) + cantidad);
+            }
+        } catch (SQLException ex) {
+            // Si hay error, se retorna lo que haya
+        }
+        return resultado;
     }
 }

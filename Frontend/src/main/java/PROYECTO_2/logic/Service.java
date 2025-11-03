@@ -5,7 +5,10 @@ import pos.logic.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.YearMonth;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Service {
     private static Service Instance;
@@ -347,7 +350,7 @@ public class Service {
 
     public List<Receta> filtrarRecetas(String tipo, String texto1, String texto2) {
         try {
-            os.writeInt(Protocol.RECETA_FILTER_2); // si tienes un opcode específico, cámbialo aquí
+            os.writeInt(Protocol.RECETA_FILTER_2);
             os.writeObject(tipo);
             os.writeObject(texto1);
             os.writeObject(texto2);
@@ -356,6 +359,36 @@ public class Service {
                 return (List<Receta>) is.readObject();
             } else {
                 return List.of();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Map<String, Integer> conteoRecetasPorEstado() {
+        try {
+            os.writeInt(Protocol.RECETA_CONTEO_POR_ESTADO);
+            os.flush();
+            if (is.readInt() == Protocol.STATUS_NO_ERROR) {
+                return (Map<String, Integer>) is.readObject();
+            } else {
+                return Collections.emptyMap();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Map<String, Map<YearMonth, Integer>> agruparRecetas_CantidadesPorMedicamentoYMes(List<MedicamentoResumen> medicamentosResumen) {
+        try {
+            os.writeInt(Protocol.RECETA_CANTIDADES_POR_MEDICAMENTO_Y_MES);
+            os.writeObject(medicamentosResumen);
+            os.flush();
+            if (is.readInt() == Protocol.STATUS_NO_ERROR) {
+                System.out.println("Tengo el mapa");
+                return (Map<String, Map<YearMonth, Integer>>) is.readObject();
+            } else {
+                return Collections.emptyMap();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -448,5 +481,4 @@ public class Service {
             throw new Exception("Error al iniciar sesion");
         }
     }
-
 }

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 
 public class Worker {
     Server srv;
@@ -354,6 +356,25 @@ public class Worker {
                             String texto1 = (String) is.readObject();
                             String texto2 = (String) is.readObject();
                             List<Receta> data = service.filtrarRecetas(tipo, texto1, texto2);
+                            os.writeInt(Protocol.STATUS_NO_ERROR);
+                            os.writeObject(data);
+                        } catch (Exception ex) {
+                            os.writeInt(Protocol.STATUS_ERROR);
+                        }
+                        break;
+                    case Protocol.RECETA_CONTEO_POR_ESTADO:
+                        try{
+                            Map<String, Integer> data = service.conteoRecetasPorEstado();
+                            os.writeInt(Protocol.STATUS_NO_ERROR);
+                            os.writeObject(data);
+                        } catch (Exception ex) {
+                            os.writeInt(Protocol.STATUS_ERROR);
+                        }
+                        break;
+                    case Protocol.RECETA_CANTIDADES_POR_MEDICAMENTO_Y_MES:
+                        try{
+                            List<MedicamentoResumen> medicamentosResumen = (List<MedicamentoResumen>) is.readObject();
+                            Map<String, Map<YearMonth, Integer>> data = service.agruparRecetas_CantidadesPorMedicamentoYMes(medicamentosResumen);
                             os.writeInt(Protocol.STATUS_NO_ERROR);
                             os.writeObject(data);
                         } catch (Exception ex) {

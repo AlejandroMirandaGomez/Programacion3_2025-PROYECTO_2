@@ -39,7 +39,8 @@ public class Controller_Dashboard {
     //--Render Graficos--
     public void renderPieEstados() {
         // 2) convierte a conteos
-        Map<String, Integer> conteo = model.conteoPorEstado();
+        //Map<String, Integer> conteo = model.conteoPorEstado();
+        Map<String, Integer> conteo = Service.getInstance().conteoRecetasPorEstado();
 
         // 3) construye el ChartPanel
         javax.swing.JPanel chartPanel = ChartsFactory.buildPieRecetasPorEstado(conteo);
@@ -50,6 +51,8 @@ public class Controller_Dashboard {
 
     public void renderLineMedicamentosPorMes() {
         Map<String, Map<YearMonth, Integer>> datos = model.agruparCantidadesPorMedicamentoYMes();
+        //List<MedicamentoResumen> medicamentosResumen = model.getMedicamentosResumen();
+        //Map<String, Map<YearMonth, Integer>> datos = Service.getInstance().agruparRecetas_CantidadesPorMedicamentoYMes(medicamentosResumen);
 
         javax.swing.JPanel chartPanel = ChartsFactory.buildLineMedicamentosPorMes(datos);
 
